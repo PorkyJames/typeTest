@@ -3,35 +3,48 @@ import Button from "react-bootstrap/Button";
 import "./PromptCard.css";
 
 import { faker } from "@faker-js/faker";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
+import CountdownTimer from '../CountdownTimer/CountdownTimer';
 
 const PromptCard = () => {
 
     const [prompt, setPrompt] = useState(faker.word.words({ count: 150 }));
     const [typedInput, setTypedInput] = useState("");
-    const [timeLeft, setTimeLeft] = useState(30);
+    const [startedTyping, setStartedTyping] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(15);
     
+    useEffect(() => {
+        if (startedTyping && timeLeft > 0) {
+            const interval = setInterval(() => {
+                setTimeLeft(prevTime => {
+                    if (prevTime <= 1) {
+                        clearInterval(interval);
+                        //! Show results modal here later
+                        return 0;
+                    }
+                    return prevTime - 1;
+                });
+            }, 1000);
+
+            return () => clearInterval(interval);
+        }
+    }, [startedTyping, timeLeft]);
+
     const refreshPrompt = () => {
         const newPrompt = faker.word.words({ count: 150 });
         setPrompt(newPrompt);
-    }
-
-    //! Need to create a countdown timer from 30 seconds down to 0 
-    //! as soon as the user starts typing. Need to use the useState above
-
-    const countdown = () => {
-        if (timeLeft > 0) {
-            setTimeout(() => {
-                setTimeLeft(timeLeft - 1);
-            }, 1000);
-        }
-    }
+        setTypedInput("");
+        setTimeLeft(15);
+        setStartedTyping(false);
+    };
 
     return (
         <>
 
-            <div class="prompt-card">
+        <CountdownTimer timeLeft={timeLeft} />
+
+            <div className="prompt-card">
                 <p>
                     {prompt.split('').map((char, index) => {
                         let className = '';
@@ -46,7 +59,7 @@ const PromptCard = () => {
                         }
                         
                         return (
-                            <span className={className}>
+                            <span class={className}>
                                 {char}
                             </span>
                         );
@@ -61,7 +74,7 @@ const PromptCard = () => {
                     </div>
 
                     <div class="timeLeft">
-                        <p>Time: {typingTimer}</p>
+                        <p>Time: {CountdownTimer}</p>
                     </div>
 
                     <div class="Mistakes">
@@ -70,13 +83,15 @@ const PromptCard = () => {
                 </div>
             </div>
 
-            {/* There is an issue with autoFocus not working */}
             <input
-                type='text'
-                class="input"
-                value={typedInput}
-                onChange={(e) => setTypedInput(e.target.value)}
                 autoFocus
+                type='text'
+                className="input"
+                value={typedInput}
+                onChange={(e) => {
+                    setTypedInput(e.target.value);
+                    if (!startedTyping) setStartedTyping(true); 
+                }}
             />
         </>
     )
