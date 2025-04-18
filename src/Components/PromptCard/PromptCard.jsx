@@ -7,9 +7,9 @@ import { useState, useEffect } from "react";
 
 import CountdownTimer from '../CountdownTimer/CountdownTimer';
 
-const PromptCard = () => {
+const PromptCard = ({setCompleted}) => {
 
-    const [prompt, setPrompt] = useState(faker.word.words({ count: 150 }));
+    const [prompt, setPrompt] = useState(faker.word.words({ count: 30 }));
     const [typedInput, setTypedInput] = useState("");
     const [startedTyping, setStartedTyping] = useState(false);
     const [timeLeft, setTimeLeft] = useState(15);
@@ -20,7 +20,7 @@ const PromptCard = () => {
                 setTimeLeft(prevTime => {
                     if (prevTime <= 1) {
                         clearInterval(interval);
-                        //! Show results modal here later
+                        setCompleted(true);
                         return 0;
                     }
                     return prevTime - 1;
@@ -29,10 +29,10 @@ const PromptCard = () => {
 
             return () => clearInterval(interval);
         }
-    }, [startedTyping, timeLeft]);
+    }, [startedTyping, timeLeft, setCompleted]);
 
     const refreshPrompt = () => {
-        const newPrompt = faker.word.words({ count: 150 });
+        const newPrompt = faker.word.words({ count: 30 });
         setPrompt(newPrompt);
         setTypedInput("");
         setTimeLeft(15);
@@ -41,8 +41,7 @@ const PromptCard = () => {
 
     return (
         <>
-
-        <CountdownTimer timeLeft={timeLeft} />
+            <CountdownTimer timeLeft={timeLeft} />
 
             <div className="prompt-card">
                 <p>
@@ -65,23 +64,9 @@ const PromptCard = () => {
                         );
                     })}
                 </p>
-
-                <div class="typing-info">
-                    <Button variant="primary" onClick={refreshPrompt}>Restart</Button>
-
-                    <div class="wpm">
-                        <p>WPM: </p>
-                    </div>
-
-                    <div class="timeLeft">
-                        <p>Time: {CountdownTimer}</p>
-                    </div>
-
-                    <div class="Mistakes">
-                        <p>Mistakes: </p>
-                    </div>
-                </div>
             </div>
+
+            <Button variant="primary" onClick={refreshPrompt}>Restart</Button>
 
             <input
                 autoFocus
@@ -90,7 +75,9 @@ const PromptCard = () => {
                 value={typedInput}
                 onChange={(e) => {
                     setTypedInput(e.target.value);
-                    if (!startedTyping) setStartedTyping(true); 
+                    if (!startedTyping) {
+                        setStartedTyping(true); 
+                    }
                 }}
             />
         </>
