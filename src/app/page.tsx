@@ -10,11 +10,19 @@ import { useState } from "react"
 export default function Home() {
 
   const [testComplete, setTestComplete] = useState<boolean>(false)
+  const [charsTyped, setCharsTyped] = useState<number>(0)
 
   return (
     <>
       <h1>TypingTest Demo</h1>
-      { testComplete ? <TestResults /> : <PromptCard setTestComplete={setTestComplete}/> }
+      <Dashboard />
+      { 
+        testComplete 
+        ? 
+        <TestResults setTestComplete={setTestComplete} charsTyped={charsTyped} setCharsTyped={setCharsTyped}/> 
+        : 
+        <PromptCard setTestComplete={setTestComplete} setCharsTyped={setCharsTyped}/> 
+      }
     </>
   );
 }
