@@ -11,6 +11,7 @@ export default function Home() {
 
   const [testComplete, setTestComplete] = useState<boolean>(false)
   const [charsTyped, setCharsTyped] = useState<number>(0)
+  const [correctCount, setCorrectCount] = useState<number>(0)
 
   return (
     <>
@@ -19,9 +20,18 @@ export default function Home() {
       { 
         testComplete 
         ? 
-        <TestResults setTestComplete={setTestComplete} charsTyped={charsTyped} setCharsTyped={setCharsTyped}/> 
+        <TestResults 
+          setTestComplete={setTestComplete} 
+          charsTyped={charsTyped} 
+          setCharsTyped={setCharsTyped}
+          correctCount={correctCount}
+        /> 
         : 
-        <PromptCard setTestComplete={setTestComplete} setCharsTyped={setCharsTyped}/> 
+        <PromptCard 
+          setTestComplete={setTestComplete} 
+          setCharsTyped={setCharsTyped}
+          setCorrectCount={setCorrectCount}
+        /> 
       }
     </>
   );

@@ -9,9 +9,10 @@ import Timer from "../Timer/Timer";
 type HomePageProps = {
     setTestComplete: (value: boolean) => void;
     setCharsTyped: (value: number) => void;
+    setCorrectCount: (value: number) => void;
 }
 
-export default function PromptCard({setTestComplete, setCharsTyped} : HomePageProps) {
+export default function PromptCard({setTestComplete, setCharsTyped, setCorrectCount} : HomePageProps) {
 
     const [prompt, setPrompt] = useState<string>("")
     const [userInput, setUserInput] = useState<string>("")
@@ -64,6 +65,11 @@ export default function PromptCard({setTestComplete, setCharsTyped} : HomePagePr
                         onChange={(e) => {
                             setUserInput(e.target.value)
                             setCharsTyped(userInput.length)
+                            let correct = 0;
+                            for (let i = 0; i < userInput.length; i++) {
+                                if (userInput[i] === prompt[i]) correct++;
+                            }
+                            setCorrectCount(correct);
                             if (!startedTyping) {
                                 setStartedTyping(true)
                             }
