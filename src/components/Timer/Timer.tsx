@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react"
+import { useHomeContext } from "@/lib/useHomeContext"
 
-type HomePageProps = {
-    setTestComplete: (value: boolean) => void;
-}
+export default function Timer() {
 
-export default function Timer({setTestComplete } : HomePageProps) {
+    const { setTestComplete } = useHomeContext()
 
     const [time, setTime] = useState<number>(15)
 

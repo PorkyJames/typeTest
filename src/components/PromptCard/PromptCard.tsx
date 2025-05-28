@@ -3,21 +3,29 @@
 //! Imports
 import "./PromptCard.css"
 import { Button } from "react-aria-components";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+
+//! Context
+import { useHomeContext } from "@/lib/useHomeContext"
+import { usePromptCardContext } from "@/lib/usePromptCardContext"
+
+//! Components
 import Timer from "../Timer/Timer";
 
-type HomePageProps = {
-    setTestComplete: (value: boolean) => void;
-    setCharsTyped: (value: number) => void;
-    setCorrectCount: (value: number) => void;
-}
+export default function PromptCard() {
 
-export default function PromptCard({setTestComplete, setCharsTyped, setCorrectCount} : HomePageProps) {
+    const { setCharsTyped, setCorrectCount } = useHomeContext();
 
-    const [prompt, setPrompt] = useState<string>("")
-    const [userInput, setUserInput] = useState<string>("")
-    const [startedTyping, setStartedTyping] = useState<boolean>(false)
-    const [isFocused, setIsFocused] = useState<boolean>(false)
+    const {
+        prompt,
+        setPrompt,
+        userInput,
+        setUserInput,
+        startedTyping,
+        setStartedTyping,
+        isFocused,
+        setIsFocused
+    } = usePromptCardContext();
 
     const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -58,7 +66,6 @@ export default function PromptCard({setTestComplete, setCharsTyped, setCorrectCo
 
     return (
         <>
-
             <div className="prompt-wrapper"
                 onClick = { () => {
                         handleFocus()
@@ -68,7 +75,7 @@ export default function PromptCard({setTestComplete, setCharsTyped, setCorrectCo
             >
 
                 {startedTyping ? 
-                <Timer setTestComplete={setTestComplete}/> 
+                <Timer /> 
                 : 
                 <></>
                 }

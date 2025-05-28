@@ -1,11 +1,8 @@
-type HomePageProps = {
-    setTestComplete: (value: boolean) => void;
-    charsTyped: number;
-    setCharsTyped: (value: number) => void;
-    correctCount: number;
-}
+import { useHomeContext } from "@/lib/useHomeContext"
 
-export default function TestResults({setTestComplete, charsTyped, setCharsTyped, correctCount} : HomePageProps) {
+export default function TestResults() {
+
+    const {setTestComplete, charsTyped, setCharsTyped, correctCount} = useHomeContext()
 
     const setFalse = () => {
         setTestComplete(false)
