@@ -1,0 +1,52 @@
+/* Results */
+.tr-top-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5%;
+    font-size: 3rem;
+}
+
+
+/* Keyboard */
+.keyboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.keyb-top,
+.keyb-mid,
+.keyb-bot {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+}
+
+.keyb-key-top,
+.keyb-key-mid,
+.keyb-key-bot {
+    padding: 8px 12px;
+    border: 1px solid rgb(202, 202, 202);
+    border-radius: 5px;
+    font-size: 15px;
+    transition: .5s;
+}
+
+.keyb-key-top:hover,
+.keyb-key-mid:hover,
+.keyb-key-bot:hover {
+    transform: scale(1.15);
+}
+
+/* Restart Button */
+.restart-btn {
+    display: flex;
+    justify-content: center;
+    margin: 5%;
+}
