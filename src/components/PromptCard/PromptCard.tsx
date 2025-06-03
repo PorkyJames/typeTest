@@ -14,7 +14,7 @@ import Timer from "../Timer/Timer";
 
 export default function PromptCard() {
 
-    const { setCharsTyped, setCorrectCount } = useHomeContext();
+    const { setCharsTyped, setCorrectCount, testComplete } = useHomeContext();
 
     const {
         prompt,
@@ -24,24 +24,18 @@ export default function PromptCard() {
         startedTyping,
         setStartedTyping,
         isFocused,
-        setIsFocused
+        setIsFocused,
+        handlePromptRestart,
     } = usePromptCardContext();
 
     const inputRef = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
+        if (!prompt && !testComplete) {
+            handlePromptRestart()
+        }
         handleFocus()
-        handlePromptRestart()
-        setIsFocused(true)
-    }, [])
-
-    const handlePromptRestart = async () => {
-        const res = await fetch("/api/promptLLM")
-        const data = await res.json()
-        setPrompt(data.prompt)
-        setUserInput("")
-        setIsFocused(true)
-    }
+    }, [prompt, testComplete])
 
     const handleFocus = () => {
         setIsFocused(true);
@@ -69,7 +63,6 @@ export default function PromptCard() {
             <div className="prompt-wrapper"
                 onClick = { () => {
                         handleFocus()
-                        setIsFocused(true)
                     }  
                 }
             >
@@ -109,9 +102,8 @@ export default function PromptCard() {
                     
                 </div>
 
-
                 <div className="button-div">
-                    <Button onClick={handlePromptRestart}>Restart</Button>
+                    <Button onClick={handlePromptRestart}>Refresh Prompt</Button>
                 </div>
             </div>
     

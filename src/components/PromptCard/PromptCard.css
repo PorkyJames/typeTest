@@ -1,9 +1,24 @@
 .correct {
-    color: green
+    color: green;
+    animation: disappearIfCorrect 2s ease-out forwards;
+}
+
+@keyframes disappearIfCorrect {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
+    100% {
+        opacity: 0
+    }
 }
 
 .incorrect {
     color: red;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
 }
 
 .current {
@@ -34,10 +49,12 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1px;
-    text-align: center;
+    text-align: left;
     justify-content: center;
     margin: auto;
     position: relative;
+    width: 80%;
+    
     /* animation: fadeIn 0.3s */
 }
 
@@ -53,7 +70,7 @@
 
 /* Each Character */
 .prompt-card span {
-    padding: 0 2px;
+    padding: 2px 4px;
     border-radius: 4px;
     transition: background-color 0.1s, color 0.2s;
 }

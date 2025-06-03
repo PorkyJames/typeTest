@@ -2,14 +2,22 @@ import "../TestResults/TestResults.css"
 import KeyboardHeatmap from "@/components/TestResults/KeyboardHeatMap/KeyboardHeatmap"
 
 import { useHomeContext } from "@/lib/useHomeContext"
+import { usePromptCardContext } from "@/lib/usePromptCardContext"
 
 export default function TestResults() {
 
-    const {setTestComplete, charsTyped, setCharsTyped, correctCount} = useHomeContext()
+    const {setTestComplete, charsTyped, setCharsTyped, correctCount, setCorrectCount} = useHomeContext()
 
-    const setFalse = () => {
-        setTestComplete(false)
-        setCharsTyped(0)
+    const {setStartedTyping, setPrompt, setShouldRestartPrompt, setUserInput} = usePromptCardContext()
+
+    const restartTest = () => {
+        setPrompt("");
+        setUserInput("");
+        setTestComplete(false);
+        setCharsTyped(0);
+        setCorrectCount(0);
+        setStartedTyping(false);
+        setShouldRestartPrompt(true)
     }
     
     const calculateWPM = (charsTyped : number): number => {
@@ -20,7 +28,6 @@ export default function TestResults() {
         return ((correctCount / charsTyped) * 100)
     }
     
-
     return (
         <>
 
@@ -37,7 +44,7 @@ export default function TestResults() {
             <KeyboardHeatmap />
 
             <div className="restart-btn">
-                <button onClick={setFalse}>Press to Restart Test</button>
+                <button onClick={restartTest}>Press to Restart Test</button>
             </div>
         </>
     )

@@ -1,4 +1,4 @@
-import { createContext } from "react"
+import React, { createContext } from "react"
 
 type PromptCardType = {
     prompt: string;
@@ -8,7 +8,10 @@ type PromptCardType = {
     startedTyping: boolean;
     setStartedTyping: React.Dispatch<React.SetStateAction<boolean>>;
     isFocused: boolean;
-    setIsFocused: React.Dispatch<React.SetStateAction<boolean>>
+    setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
+    shouldRestartPrompt: boolean;
+    setShouldRestartPrompt: React.Dispatch<React.SetStateAction<boolean>>
+    handlePromptRestart: () => void;
 }
 
 export const PromptCardContext = createContext<PromptCardType | null>(null);

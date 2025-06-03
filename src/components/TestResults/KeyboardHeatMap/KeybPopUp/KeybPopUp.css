@@ -3,6 +3,11 @@
     justify-content: center;
     align-items: center;
     font-size: 2rem;
+    background-color: #555a64;
+    padding: 15px 20px;
     border: 1px solid black;
-    margin: auto;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    /* Temp Solution For adjustment */
+    transform: translateY(-30px);
 }

@@ -20,11 +20,21 @@ export default function Home() {
   const [userInput, setUserInput] = useState<string>("")
   const [startedTyping, setStartedTyping] = useState<boolean>(false)
   const [isFocused, setIsFocused] = useState<boolean>(false)
+  const [shouldRestartPrompt, setShouldRestartPrompt] = useState<boolean>(false);
+
+  const handlePromptRestart = async () => {
+        const res = await fetch("/api/promptLLM")
+        const data = await res.json()
+        setPrompt(data.prompt)
+        setUserInput("")
+        setIsFocused(true)
+        
+    }
 
   return (
     <>
       <HomeContext.Provider value={{ testComplete, setTestComplete, charsTyped, setCharsTyped, correctCount, setCorrectCount }}>
-        <PromptCardContext value={{prompt, setPrompt, userInput, setUserInput, startedTyping, setStartedTyping, isFocused, setIsFocused}}>
+        <PromptCardContext value={{prompt, setPrompt, userInput, setUserInput, startedTyping, setStartedTyping, isFocused, setIsFocused, handlePromptRestart, shouldRestartPrompt, setShouldRestartPrompt}}>
           <h1>TypingTest Demo</h1>
           <Dashboard />
           { 
