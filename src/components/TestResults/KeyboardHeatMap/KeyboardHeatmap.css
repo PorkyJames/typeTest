@@ -1,0 +1,53 @@
+/* Keyboard */
+.keyboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.keyb-top,
+.keyb-mid,
+.keyb-bot {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+}
+
+.keyb-key-top,
+.keyb-key-mid,
+.keyb-key-bot {
+    padding: 8px 12px;
+    border: 1px solid rgb(202, 202, 202);
+    border-radius: 5px;
+    font-size: 15px;
+    transition: .1s;
+}
+
+.keyb-key-top:hover,
+.keyb-key-mid:hover,
+.keyb-key-bot:hover {
+    transform: scale(1.15);
+    cursor: pointer;
+}
+
+.keyb-popup-wrapper {
+    position: absolute;
+    top: -50px;
+    animation: fadeSlideUp .25s ease-out forwards;
+}
+
+@keyframes fadeSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
