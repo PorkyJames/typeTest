@@ -3,7 +3,8 @@
 //! Imports
 import "./PromptCard.css"
 import { Button } from "react-aria-components";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useReducer } from "react";
+import { typingReducer, initialTypingState } from "@/reducers/typingReducer"
 
 //! Context
 import { useHomeContext } from "@/lib/useHomeContext"
@@ -13,6 +14,8 @@ import { usePromptCardContext } from "@/lib/usePromptCardContext"
 import Timer from "../Timer/Timer";
 
 export default function PromptCard() {
+
+    const [state, dispatch] = useReducer(typingReducer, initialTypingState)
 
     const { setCharsTyped, setCorrectCount, testComplete } = useHomeContext();
 
@@ -38,8 +41,8 @@ export default function PromptCard() {
     }, [prompt, testComplete])
 
     const handleFocus = () => {
-        setIsFocused(true);
-        return inputRef.current?.focus()
+        dispatch({type: 'FOCUSED'})
+        inputRef.current?.focus()
     }
 
     //! Grab our prompt, split it, and compare to an input that's invisible
@@ -74,7 +77,7 @@ export default function PromptCard() {
                 }
 
                 <div className="prompt-card">
-                    <h2 className={!isFocused ? "blurred" : ""}>
+                    <h2 className={!state.isFocused ? "blurred" : ""}>
                         {promptSplit(prompt)}
                     </h2>
 
@@ -95,7 +98,7 @@ export default function PromptCard() {
                                 }
                             }}
                             ref={inputRef}
-                            onBlur={() => setIsFocused(false)}
+                            onBlur={() => dispatch({ type: 'IDLE' })}
                         >
                         </input>
                     </div>

@@ -12,15 +12,19 @@ export const initialTypingState = {
 export function typingReducer(state: typeof initialTypingState, action: any) {
     switch (action.type) {
         case 'IDLE':
-            return {...state, startedTyping: false }
+            return {...state, isFocused: false }
+        case 'FOCUSED':
+            return {...state, isFocused: true }
         case 'TYPING':
-            return {...state, startedTyping: true}
+            return {
+                ...state, 
+                userInput: action.payload.userInput,
+                charsTyped: action.payload.charsTyped,
+                correctCount: action.payload.correctCount,
+                startedTyping: true, 
+            }
         case 'COMPLETE':
             return {...state, testComplete: true}
-        case 'FOCUS':
-            return {...state, isFocused: true}
-        case 'BLUR':
-            return {...state, isFocused: false}
         case 'RESET':
             return initialTypingState
         default:
