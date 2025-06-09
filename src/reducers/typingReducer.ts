@@ -19,7 +19,7 @@ export function typingReducer(state: typeof initialTypingState, action: any) {
             return {
                 ...state, 
                 userInput: action.payload.userInput,
-                charsTyped: action.payload.charsTyped,
+                charsTyped: action.payload.userInput.length,
                 correctCount: action.payload.correctCount,
                 startedTyping: true, 
             }

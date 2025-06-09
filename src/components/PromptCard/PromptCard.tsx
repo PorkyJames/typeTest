@@ -45,6 +45,18 @@ export default function PromptCard() {
         inputRef.current?.focus()
     }
 
+    const handleInputChange = () => {
+        dispatch({type: 'TYPING'})
+        let correct = 0;
+        for (let i = 0; i < userInput.length; i++) {
+            if (userInput[i] === prompt[i]) correct++;
+        }
+        setCorrectCount(correct);
+        if (!startedTyping) {
+            setStartedTyping(true)
+                                }
+    }
+
     //! Grab our prompt, split it, and compare to an input that's invisible
     const promptSplit = (generatedPrompt: string) => {
         const adjustedLetters = generatedPrompt.split("").map((char, index) => {
