@@ -13,19 +13,22 @@ import { usePromptCardContext } from "@/lib/usePromptCardContext"
 //! Components
 import Timer from "../Timer/Timer";
 
-export default function PromptCard() {
+interface PromptCardProps {
+    state: any;
+    dispatch: React.Dispatch<any>;
+}
 
-    const [state, dispatch] = useReducer(typingReducer, initialTypingState)
-    const {testComplete } = useHomeContext();
-    const { handlePromptRestart, prompt, userInput, startedTyping } = usePromptCardContext();
+export default function PromptCard({state, dispatch}: PromptCardProps) {
+
+    const { handlePromptRestart } = usePromptCardContext();
     const inputRef = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
-        if (!prompt && !testComplete) {
+        if (!prompt && !state.testComplete) {
             handlePromptRestart()
         }
         handleFocus()
-    }, [prompt, testComplete])
+    }, [prompt, state.testComplete])
 
     const handleFocus = () => {
         dispatch({type: 'FOCUSED'})
@@ -34,10 +37,10 @@ export default function PromptCard() {
 
     const handleInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        console.log(value, "<<<<value")
+        // console.log(value, "<<<<value")
         let correct = 0
         for (let i = 0; i < value.length; i++) {
-            if (value[i] === prompt[i]) correct++
+            if (value[i] === state.prompt[i]) correct++
         }
 
         dispatch({
@@ -49,7 +52,7 @@ export default function PromptCard() {
                 startedTyping: true,
             }
         })
-        console.log(state.startedTyping, startedTyping, "<<<startedTyping State")
+        // console.log(state.startedTyping, startedTyping, "<<<startedTyping State")
     }
 
     //! Grab our prompt, split it, and compare to an input that's invisible
@@ -78,14 +81,14 @@ export default function PromptCard() {
             >
 
                 {state.startedTyping ? 
-                <Timer /> 
+                <Timer startedTyping={state.startedTyping} setTestComplete={setTestComplete}/> 
                 : 
                 <></>
                 }
 
                 <div className="prompt-card">
                     <h2 className={!state.isFocused ? "blurred" : ""}>
-                        {promptSplit(prompt)}
+                        {promptSplit(state.prompt)}
                     </h2>
 
                     <div className="input-div">

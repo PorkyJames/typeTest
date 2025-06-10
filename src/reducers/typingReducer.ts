@@ -1,3 +1,14 @@
+//! State Type
+export type TypingState ={
+    userInput: string;
+    charsTyped: number;
+    correctCount: number;
+    isFocused: boolean;
+    startedTyping: boolean;
+    testComplete: boolean;
+    prompt: string;
+}
+
 //! Initial State
 export const initialTypingState = {
     userInput: '',
@@ -5,7 +16,8 @@ export const initialTypingState = {
     correctCount: 0,
     isFocused: true,
     startedTyping: false,
-    testComplete: false
+    testComplete: false,
+    prompt: '',
 }
 
 //! Reducer Function
@@ -26,7 +38,18 @@ export function typingReducer(state: typeof initialTypingState, action: any) {
         case 'COMPLETE':
             return {...state, testComplete: true}
         case 'RESET':
-            return initialTypingState
+            return {...initialTypingState, testComplete: false}
+        case 'PROMPT_RESET':
+            return {
+                ...state,
+                prompt: action.payload.prompt,
+                userInput: '',
+                charsTyped: 0,
+                correctCount: 0,
+                isFocused: true,
+                startedTyping: false,
+                testComplete: false,
+            };
         default:
             return state
     }

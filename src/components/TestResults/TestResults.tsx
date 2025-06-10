@@ -1,31 +1,32 @@
 import "../TestResults/TestResults.css"
 import KeyboardHeatmap from "@/components/TestResults/KeyboardHeatMap/KeyboardHeatmap"
+import { useReducer } from "react"
 
 import { useHomeContext } from "@/lib/useHomeContext"
 import { usePromptCardContext } from "@/lib/usePromptCardContext"
+import { initialTypingState } from "@/reducers/typingReducer"
 
-export default function TestResults() {
+interface TestResultsProps {
+    state: typeof initialTypingState; 
+    dispatch: React.Dispatch<any>;
+    testComplete: boolean;
+}
 
-    const {setTestComplete, charsTyped, setCharsTyped, correctCount, setCorrectCount} = useHomeContext()
-
-    const {setStartedTyping, setPrompt, setShouldRestartPrompt, setUserInput} = usePromptCardContext()
+export default function TestResults({state, dispatch} : TestResultsProps) {
 
     const restartTest = () => {
-        setPrompt("");
-        setUserInput("");
-        setTestComplete(false);
-        setCharsTyped(0);
-        setCorrectCount(0);
-        setStartedTyping(false);
-        setShouldRestartPrompt(true)
+        dispatch({type: 'RESET'})
+        // console.log(state.testComplete, "<<<testComplete")
     }
     
     const calculateWPM = (charsTyped : number): number => {
         return (charsTyped / 5) / .25
+        console.log((charsTyped / 5) / .25,"<<<<wpm")
     }
 
-    const calculateAcc = (correctCount : number): number => {
+    const calculateAcc = (correctCount : number, charsTyped: number): number => {
         return ((correctCount / charsTyped) * 100)
+        console.log(((correctCount / charsTyped) * 100), "<<<acc")
     }
     
     return (
@@ -33,11 +34,11 @@ export default function TestResults() {
 
             <div className="tr-top-wrapper">
                 <div className="wpm-result">
-                    WPM: {calculateWPM(charsTyped)}
+                    WPM: {calculateWPM(state.charsTyped)}
                 </div>
 
                 <div className="acc-result">
-                    Acc: {calculateAcc(correctCount).toFixed(1)}
+                    Acc: {calculateAcc(state.correctCount, state.charsTyped).toFixed(1)}
                 </div>
             </div>
 

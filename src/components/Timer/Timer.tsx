@@ -1,23 +1,24 @@
-import { useState, useEffect, useReducer } from "react"
-import { useHomeContext } from "@/lib/useHomeContext"
-import { usePromptCardContext } from "@/lib/usePromptCardContext"
+import React, { useState, useEffect, useReducer } from "react"
 import { typingReducer, initialTypingState } from "@/reducers/typingReducer"
 
-export default function Timer() {
+type TimerProps = {
+    startedTyping: boolean;
+    setTestComplete: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-    const { setTestComplete } = useHomeContext()
-    const { startedTyping } = usePromptCardContext()
+export default function Timer({startedTyping, setTestComplete} : TimerProps) {
+
     const [state, dispatch] = useReducer(typingReducer, initialTypingState)
-
     const [time, setTime] = useState<number>(15)
 
     useEffect(() => {
-        if (state.startedTyping) {
+        // console.log(state.startedTyping, "<<<startedTyping")
+        if (startedTyping) {
             const countDown = setInterval(() => {
                 setTime(prevTime => {
                     if (prevTime < 1) {
                         clearInterval(countDown)
-                        dispatch({type: 'COMPLETE'})
+                        setTestComplete(true)
                         return 0;
                     }
                     return prevTime - 1;
@@ -26,18 +27,19 @@ export default function Timer() {
     
             return () => clearInterval(countDown);
         }
-    }, [state.startedTyping, dispatch])
+    }, [startedTyping])
 
 
     useEffect(() => {
         if (time < 1) {
-            dispatch({type: 'COMPLETE'})
+            setTestComplete(true)
+            // console.log(state.testComplete, "<<<testComplete")
         }
     }, [time])
 
     return (
         <>
-            <h1>Timer: {time}</h1>
+            <h1>{time}</h1>
         </>
     )
 }
