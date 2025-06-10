@@ -16,21 +16,8 @@ import Timer from "../Timer/Timer";
 export default function PromptCard() {
 
     const [state, dispatch] = useReducer(typingReducer, initialTypingState)
-
-    const { setCharsTyped, setCorrectCount, testComplete } = useHomeContext();
-
-    const {
-        prompt,
-        setPrompt,
-        userInput,
-        setUserInput,
-        startedTyping,
-        setStartedTyping,
-        isFocused,
-        setIsFocused,
-        handlePromptRestart,
-    } = usePromptCardContext();
-
+    const {testComplete } = useHomeContext();
+    const { handlePromptRestart, prompt, userInput, startedTyping } = usePromptCardContext();
     const inputRef = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
@@ -45,16 +32,24 @@ export default function PromptCard() {
         inputRef.current?.focus()
     }
 
-    const handleInputChange = () => {
-        dispatch({type: 'TYPING'})
-        let correct = 0;
-        for (let i = 0; i < userInput.length; i++) {
-            if (userInput[i] === prompt[i]) correct++;
+    const handleInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        console.log(value, "<<<<value")
+        let correct = 0
+        for (let i = 0; i < value.length; i++) {
+            if (value[i] === prompt[i]) correct++
         }
-        setCorrectCount(correct);
-        if (!startedTyping) {
-            setStartedTyping(true)
-                                }
+
+        dispatch({
+            type: 'TYPING',
+            payload: {
+                userInput: value,
+                charsTyped: value.length,
+                correctCount: correct,
+                startedTyping: true,
+            }
+        })
+        console.log(state.startedTyping, startedTyping, "<<<startedTyping State")
     }
 
     //! Grab our prompt, split it, and compare to an input that's invisible
@@ -62,9 +57,9 @@ export default function PromptCard() {
         const adjustedLetters = generatedPrompt.split("").map((char, index) => {
             let className = ""
     
-            if (index < userInput.length) {
-                className = userInput[index] === char ? "correct" : "incorrect"
-            } else if (index === userInput.length) {
+            if (index < state.userInput.length) {
+                className = state.userInput[index] === char ? "correct" : "incorrect"
+            } else if (index === state.userInput.length) {
                 className = "current"
             }
             return <span key={index} className={className}>{char}</span>
@@ -82,7 +77,7 @@ export default function PromptCard() {
                 }
             >
 
-                {startedTyping ? 
+                {state.startedTyping ? 
                 <Timer /> 
                 : 
                 <></>
@@ -96,19 +91,8 @@ export default function PromptCard() {
                     <div className="input-div">
                         <input 
                             className="input"
-                            value={userInput}
-                            onChange={(e) => {
-                                setUserInput(e.target.value)
-                                setCharsTyped(userInput.length)
-                                let correct = 0;
-                                for (let i = 0; i < userInput.length; i++) {
-                                    if (userInput[i] === prompt[i]) correct++;
-                                }
-                                setCorrectCount(correct);
-                                if (!startedTyping) {
-                                    setStartedTyping(true)
-                                }
-                            }}
+                            value={state.userInput}
+                            onChange={handleInputChange}
                             ref={inputRef}
                             onBlur={() => dispatch({ type: 'IDLE' })}
                         >

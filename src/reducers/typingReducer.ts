@@ -21,7 +21,7 @@ export function typingReducer(state: typeof initialTypingState, action: any) {
                 userInput: action.payload.userInput,
                 charsTyped: action.payload.userInput.length,
                 correctCount: action.payload.correctCount,
-                startedTyping: true, 
+                startedTyping: true,
             }
         case 'COMPLETE':
             return {...state, testComplete: true}
