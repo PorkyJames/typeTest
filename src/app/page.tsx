@@ -7,6 +7,10 @@ import TestResults from "../components/TestResults/TestResults"
 import { useReducer } from "react"
 import { typingReducer, initialTypingState } from "@/reducers/typingReducer"
 
+//! PromptCardContext
+import { PromptCardContext } from "@/context/PromptCardContext"
+import { ReducerContext } from "@/context/ReducerContext"
+
 export default function Home() {
   
   const [state, dispatch] = useReducer(typingReducer, initialTypingState)
@@ -18,14 +22,16 @@ export default function Home() {
     }
 
   return (
-    <>
-        <h1>TypingTest Demo</h1>
-        <Dashboard />
-        {state.testComplete
-          ? <TestResults state={state} dispatch={dispatch} testComplete={state.testComplete} />
-          : <PromptCard state={state} dispatch={dispatch} handlePromptRestart = {handlePromptRestart}/>
-        }
-    </>
+      <ReducerContext.Provider value={{state, dispatch}}>
+        <PromptCardContext.Provider value={{handlePromptRestart}}>
+          <h1>TypingTest Demo</h1>
+          <Dashboard />
+          {state.testComplete
+            ? <TestResults />
+            : <PromptCard />
+          }
+        </PromptCardContext.Provider>
+      </ReducerContext.Provider>
   );
 }
 

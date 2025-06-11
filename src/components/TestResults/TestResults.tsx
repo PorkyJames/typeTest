@@ -1,32 +1,25 @@
 import "../TestResults/TestResults.css"
 import KeyboardHeatmap from "@/components/TestResults/KeyboardHeatMap/KeyboardHeatmap"
-import { useReducer } from "react"
 
-import { useHomeContext } from "@/lib/useHomeContext"
 import { usePromptCardContext } from "@/lib/usePromptCardContext"
-import { initialTypingState } from "@/reducers/typingReducer"
+import { useReducerContext } from "@/lib/useReducerContext"
 
-interface TestResultsProps {
-    state: typeof initialTypingState; 
-    dispatch: React.Dispatch<any>;
-    testComplete: boolean;
-}
+export default function TestResults() {
 
-export default function TestResults({state, dispatch} : TestResultsProps) {
+    const {handlePromptRestart} = usePromptCardContext()
+    const {state, dispatch } = useReducerContext()
 
     const restartTest = () => {
         dispatch({type: 'RESET'})
-        // console.log(state.testComplete, "<<<testComplete")
+        handlePromptRestart()
     }
     
     const calculateWPM = (charsTyped : number): number => {
         return (charsTyped / 5) / .25
-        // console.log((charsTyped / 5) / .25,"<<<<wpm")
     }
 
     const calculateAcc = (correctCount : number, charsTyped: number): number => {
         return ((correctCount / charsTyped) * 100)
-        // console.log(((correctCount / charsTyped) * 100), "<<<acc")
     }
     
     return (

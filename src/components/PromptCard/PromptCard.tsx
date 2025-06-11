@@ -5,18 +5,18 @@ import "./PromptCard.css"
 import { Button } from "react-aria-components";
 import React, { useEffect, useRef } from "react";
 
+//! Context
+import { usePromptCardContext } from "@/lib/usePromptCardContext"
+import { useReducerContext } from "@/lib/useReducerContext"
+
 //! Components
 import Timer from "../Timer/Timer";
 
-type PromptCardProps = {
-    state: any;
-    dispatch: React.Dispatch<any>;
-    handlePromptRestart: () => void;
-}
-
-export default function PromptCard({state, dispatch, handlePromptRestart}: PromptCardProps) {
+export default function PromptCard() {
 
     const inputRef = useRef<HTMLInputElement | null>(null)
+    const { handlePromptRestart } = usePromptCardContext()
+    const { state, dispatch } = useReducerContext();
 
     useEffect(() => {
         if (!state.prompt && !state.testComplete) {
@@ -32,7 +32,6 @@ export default function PromptCard({state, dispatch, handlePromptRestart}: Promp
 
     const handleInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        // console.log(value, "<<<<value")
         let correct = 0
         for (let i = 0; i < value.length; i++) {
             if (value[i] === state.prompt[i]) correct++
@@ -47,7 +46,6 @@ export default function PromptCard({state, dispatch, handlePromptRestart}: Promp
                 startedTyping: true,
             }
         })
-        // console.log(state.startedTyping, startedTyping, "<<<startedTyping State")
     }
 
     //! Grab our prompt, split it, and compare to an input that's invisible
@@ -70,7 +68,7 @@ export default function PromptCard({state, dispatch, handlePromptRestart}: Promp
         <>
             <div className="prompt-wrapper" onClick = {() => {handleFocus()}}>
                 {state.startedTyping ? 
-                    <Timer startedTyping={state.startedTyping} dispatch={dispatch}/> 
+                    <Timer startedTyping={state.startedTyping} /> 
                     : 
                     <></>
                 }

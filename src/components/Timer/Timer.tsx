@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useReducer } from "react"
 import { typingReducer, initialTypingState } from "@/reducers/typingReducer"
+import { useReducerContext } from "@/lib/useReducerContext"
 
 type TimerProps = {
     startedTyping: boolean;
-    dispatch: React.Dispatch<any>
 }
 
-export default function Timer({startedTyping, dispatch} : TimerProps) {
+export default function Timer({startedTyping} : TimerProps) {
 
     const [time, setTime] = useState<number>(15)
+    const { state, dispatch } = useReducerContext();
 
     useEffect(() => {
-        // console.log(state.startedTyping, "<<<startedTyping")
         if (startedTyping) {
             const countDown = setInterval(() => {
                 setTime(prevTime => {
