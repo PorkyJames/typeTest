@@ -21,12 +21,12 @@ export default function TestResults({state, dispatch} : TestResultsProps) {
     
     const calculateWPM = (charsTyped : number): number => {
         return (charsTyped / 5) / .25
-        console.log((charsTyped / 5) / .25,"<<<<wpm")
+        // console.log((charsTyped / 5) / .25,"<<<<wpm")
     }
 
     const calculateAcc = (correctCount : number, charsTyped: number): number => {
         return ((correctCount / charsTyped) * 100)
-        console.log(((correctCount / charsTyped) * 100), "<<<acc")
+        // console.log(((correctCount / charsTyped) * 100), "<<<acc")
     }
     
     return (

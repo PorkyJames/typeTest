@@ -3,12 +3,11 @@ import { typingReducer, initialTypingState } from "@/reducers/typingReducer"
 
 type TimerProps = {
     startedTyping: boolean;
-    setTestComplete: React.Dispatch<React.SetStateAction<boolean>>;
+    dispatch: React.Dispatch<any>
 }
 
-export default function Timer({startedTyping, setTestComplete} : TimerProps) {
+export default function Timer({startedTyping, dispatch} : TimerProps) {
 
-    const [state, dispatch] = useReducer(typingReducer, initialTypingState)
     const [time, setTime] = useState<number>(15)
 
     useEffect(() => {
@@ -18,7 +17,7 @@ export default function Timer({startedTyping, setTestComplete} : TimerProps) {
                 setTime(prevTime => {
                     if (prevTime < 1) {
                         clearInterval(countDown)
-                        setTestComplete(true)
+                        dispatch({ type:'COMPLETE' })
                         return 0;
                     }
                     return prevTime - 1;
@@ -32,8 +31,7 @@ export default function Timer({startedTyping, setTestComplete} : TimerProps) {
 
     useEffect(() => {
         if (time < 1) {
-            setTestComplete(true)
-            // console.log(state.testComplete, "<<<testComplete")
+            dispatch({type:'COMPLETE'})
         }
     }, [time])
 

@@ -3,32 +3,27 @@
 //! Imports
 import "./PromptCard.css"
 import { Button } from "react-aria-components";
-import { useEffect, useRef, useReducer } from "react";
-import { typingReducer, initialTypingState } from "@/reducers/typingReducer"
-
-//! Context
-import { useHomeContext } from "@/lib/useHomeContext"
-import { usePromptCardContext } from "@/lib/usePromptCardContext"
+import React, { useEffect, useRef } from "react";
 
 //! Components
 import Timer from "../Timer/Timer";
 
-interface PromptCardProps {
+type PromptCardProps = {
     state: any;
     dispatch: React.Dispatch<any>;
+    handlePromptRestart: () => void;
 }
 
-export default function PromptCard({state, dispatch}: PromptCardProps) {
+export default function PromptCard({state, dispatch, handlePromptRestart}: PromptCardProps) {
 
-    const { handlePromptRestart } = usePromptCardContext();
     const inputRef = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
-        if (!prompt && !state.testComplete) {
+        if (!state.prompt && !state.testComplete) {
             handlePromptRestart()
         }
         handleFocus()
-    }, [prompt, state.testComplete])
+    }, [state.prompt, state.testComplete])
 
     const handleFocus = () => {
         dispatch({type: 'FOCUSED'})
@@ -73,17 +68,11 @@ export default function PromptCard({state, dispatch}: PromptCardProps) {
 
     return (
         <>
-            <div className="prompt-wrapper"
-                onClick = { () => {
-                        handleFocus()
-                    }  
-                }
-            >
-
+            <div className="prompt-wrapper" onClick = {() => {handleFocus()}}>
                 {state.startedTyping ? 
-                <Timer startedTyping={state.startedTyping} setTestComplete={setTestComplete}/> 
-                : 
-                <></>
+                    <Timer startedTyping={state.startedTyping} dispatch={dispatch}/> 
+                    : 
+                    <></>
                 }
 
                 <div className="prompt-card">
@@ -101,14 +90,13 @@ export default function PromptCard({state, dispatch}: PromptCardProps) {
                         >
                         </input>
                     </div>
-                    
                 </div>
 
                 <div className="button-div">
                     <Button onClick={handlePromptRestart}>Refresh Prompt</Button>
                 </div>
+
             </div>
-    
         </>
     );
 }

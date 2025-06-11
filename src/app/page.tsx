@@ -4,7 +4,7 @@ import PromptCard from "../components/PromptCard/PromptCard"
 import Dashboard from "../components/Dashboard/Dashboard"
 import TestResults from "../components/TestResults/TestResults"
 
-import { useState, useReducer } from "react"
+import { useReducer } from "react"
 import { typingReducer, initialTypingState } from "@/reducers/typingReducer"
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
   const handlePromptRestart = async () => {
         const res = await fetch("/api/promptLLM")
         const data = await res.json()
-        dispatch({type: 'PROMPT_RESET', payload: {prompt: data}})
+        dispatch({type: 'PROMPT_RESET', payload: {prompt: data.prompt}})
     }
 
   return (
@@ -23,7 +23,7 @@ export default function Home() {
         <Dashboard />
         {state.testComplete
           ? <TestResults state={state} dispatch={dispatch} testComplete={state.testComplete} />
-          : <PromptCard state={state} dispatch={dispatch} />
+          : <PromptCard state={state} dispatch={dispatch} handlePromptRestart = {handlePromptRestart}/>
         }
     </>
   );
