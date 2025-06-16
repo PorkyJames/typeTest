@@ -11,6 +11,8 @@ import { typingReducer, initialTypingState } from "@/reducers/typingReducer"
 import { PromptCardContext } from "@/context/PromptCardContext"
 import { ReducerContext } from "@/context/ReducerContext"
 
+import { usePromptCardContext } from "@/lib/usePromptCardContext"
+
 export default function Home() {
   
   const [state, dispatch] = useReducer(typingReducer, initialTypingState)

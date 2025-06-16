@@ -6,5 +6,5 @@ export const usePromptCardContext = () => {
     if (!context) {
         throw new Error("Context is not provided. Please double check the Context.")
     }
-    return context;
+    return context
 }
