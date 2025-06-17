@@ -10,8 +10,8 @@ import "time"
 // }
 
 type Session struct {
-	jwt_id     int
-	user_id    int
-	issued_at  time.Time
-	expires_at time.Time
+	Jwt_id     uint
+	User_id    int
+	Issued_at  time.Time
+	Expires_at time.Time
 }

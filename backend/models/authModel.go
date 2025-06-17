@@ -12,10 +12,10 @@ package models
 import "time"
 
 type Auth struct {
-	user_id     int
-	username    string
+	User_id     uint
+	Username    string
 	UserEmail   string
-	hashed_pass string
-	updated_at  time.Time
-	created_at  time.Time
+	Hashed_pass string
+	Updated_at  time.Time
+	Created_at  time.Time
 }

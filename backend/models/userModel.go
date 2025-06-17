@@ -12,10 +12,10 @@ import "time"
 // }
 
 type User struct {
-	user_id    int
-	username   string
-	email      string
-	password   string
-	updated_at time.Time
-	created_at time.Time
+	User_id    uint
+	Username   string
+	Email      string
+	Password   string
+	Updated_at time.Time
+	Created_at time.Time
 }
