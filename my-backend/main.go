@@ -3,8 +3,9 @@ package main
 // //! Package for formatting text, including print to console
 // import "fmt"
 import (
+	"fmt"
 	"my-backend/database"
-	// "fmt"
+	"my-backend/database/migrations"
 	// "net/http"
 )
 
@@ -23,10 +24,11 @@ import (
 // }
 
 func main() {
-	// http.HandleFunc("/", handler)
-	// fmt.Println("Request Sent")
-	// http.ListenAndServe(":8080", nil)
-
+	//! Connect to Postgres
 	database.Connect()
+	fmt.Printf("database.DB: %#v\n", database.DB)
+	//! Create the table
+	migrations.UserMigrations(database.DB)
+	//! Insert Dummy Data
 
 }
