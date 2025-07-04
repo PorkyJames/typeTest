@@ -3,9 +3,10 @@ package main
 // //! Package for formatting text, including print to console
 // import "fmt"
 import (
-	"fmt"
+	// "fmt"
 	"my-backend/database"
 	"my-backend/database/migrations"
+	"my-backend/database/models"
 	// "net/http"
 )
 
@@ -26,9 +27,10 @@ import (
 func main() {
 	//! Connect to Postgres
 	database.Connect()
-	fmt.Printf("database.DB: %#v\n", database.DB)
+	// fmt.Printf("database.DB: %#v\n", database.DB)
 	//! Create the table
 	migrations.UserMigrations(database.DB)
 	//! Insert Dummy Data
-
+	user := user{"Dummy1", "dummy1@gmail.com", "dummy1pass"}
+	pk := InsertUser(DB, user)
 }
