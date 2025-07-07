@@ -1,6 +1,6 @@
 package models
 
-import "time"
+// import "time"
 
 // Table user {
 //     user_id int [pk]

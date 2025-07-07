@@ -4,9 +4,11 @@ package main
 // import "fmt"
 import (
 	// "fmt"
+	"fmt"
+	"log"
 	"my-backend/database"
 	"my-backend/database/migrations"
-	"my-backend/database/models"
+	"my-backend/models"
 	// "net/http"
 )
 
@@ -31,6 +33,22 @@ func main() {
 	//! Create the table
 	migrations.UserMigrations(database.DB)
 	//! Insert Dummy Data
-	user := user{"Dummy1", "dummy1@gmail.com", "dummy1pass"}
-	pk := InsertUser(DB, user)
+	user := models.User{"Dummy1", "dummy1@gmail.com", "dummy1pass"}
+	user2 := models.User{"Dummy2", "dummy2@gmail.com", "dummy2pass"}
+	user3 := models.User{"Dummy3", "dummy3@gmail.com", "dummy3pass"}
+	pk, err := migrations.InsertUser(database.DB, user)
+	pk2, err2 := migrations.InsertUser(database.DB, user2)
+	pk3, err3 := migrations.InsertUser(database.DB, user3)
+	if err != nil {
+		log.Fatal(err, "<<<<< Insert User Error")
+	}
+	if err2 != nil {
+		log.Fatal(err2, "<<<<< Insert User Error")
+	}
+	if err3 != nil {
+		log.Fatal(err3, "<<<<< Insert User Error")
+	}
+	fmt.Println("Inserted user with ID:", pk)
+	fmt.Println("Inserted user with ID:", pk2)
+	fmt.Println("Inserted user with ID:", pk3)
 }

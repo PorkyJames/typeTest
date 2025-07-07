@@ -21,8 +21,8 @@ func UserMigrations(DB *sql.DB) {
 			username VARCHAR(255) NOT NULL,
 			email VARCHAR(255) NOT NULL,
 			password VARCHAR(255) NOT NULL,
-			updated_at TIMESTAMP,
-			created_at TIMESTAMP
+			updated_at TIMESTAMP DEFAULT NOW(),
+			created_at TIMESTAMP DEFAULT NOW()
 		);`
 
 	_, err := DB.Exec(query)
