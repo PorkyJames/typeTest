@@ -11,30 +11,17 @@ export default function LoginAndSign() {
     return (
         <>
             <div className="login-wrapper">
-                <input
-                    type='username'
-                    placeholder="Username"
-                />
-                <input
-                    type='password'
-                    placeholder="Password"
-                />
+                <h2>Login</h2>
+                <input type='username' placeholder="Username" />
+                <input type='password' placeholder="Password" />
                 <button>Login</button>
             </div>
 
             <div className="signup-wrapper">
-                <input
-                    type='email'
-                    placeholder="Email"
-                />
-                <input
-                    type='username'
-                    placeholder="Username"
-                />
-                <input
-                    type='password'
-                    placeholder="Password"
-                />
+                <h2>Sign Up</h2>
+                <input type='email' placeholder="Email" />
+                <input type='username' placeholder="Username" />
+                <input type='password' placeholder="Password" />
                 <button>Sign Up</button>
             </div>
         </>
