@@ -40,8 +40,9 @@ func InsertUser(DB *sql.DB, user models.User) (int, error) {
 		VALUES ($1, $2, $3)
 		RETURNING user_id;
 	`
+
 	var pk int
-	err := DB.QueryRow(query, user.Username, user.Email, user.Password).Scan(&pk)
+	err := DB.QueryRow(query, user.Username, user.Email, user.HashedPassword).Scan(&pk)
 
 	if err != nil {
 		return 0, err

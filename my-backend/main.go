@@ -2,13 +2,14 @@ package main
 
 // //! Package for formatting text, including print to console
 import (
-	// "fmt"
+	"fmt"
+	"my-backend/models"
 	"log"
 	"my-backend/database"
 	"my-backend/database/migrations"
-	// "my-backend/models"
 	"my-backend/routes"
 	"net/http"
+	"my-backend/lib/hashPass"
 )
 
 // func handler(w http.ResponseWriter, r *http.Request) {
@@ -32,12 +33,12 @@ func main() {
 	//! Create the table
 	migrations.UserMigrations(database.DB)
 	//! Insert Dummy Data
-	// user := models.User{"Dummy1", "dummy1@gmail.com", "dummy1pass"}
-	// user2 := models.User{"Dummy2", "dummy2@gmail.com", "dummy2pass"}
-	// user3 := models.User{"Dummy3", "dummy3@gmail.com", "dummy3pass"}
-	// pk, err := migrations.InsertUser(database.DB, user)
-	// pk2, err2 := migrations.InsertUser(database.DB, user2)
-	// pk3, err3 := migrations.InsertUser(database.DB, user3)
+	user := models.User{"Dummy1", "dummy1@gmail.com", GenerateFromPassword("dummy1pass")}
+	pk, _ := migrations.InsertUser(database.DB, user)
+	user2 := models.User{"Dummy2", "dummy2@gmail.com", GenerateFromPassword("dummy2pass")}
+	pk2, _ := migrations.InsertUser(database.DB, user2)
+	user3 := models.User{"Dummy3", "dummy3@gmail.com", GenerateFromPassword("dummy3pass")}
+	pk3, _ := migrations.InsertUser(database.DB, user3)
 	// if err != nil {
 	// 	log.Fatal(err, "<<<<< Insert User Error")
 	// }
@@ -47,9 +48,7 @@ func main() {
 	// if err3 != nil {
 	// 	log.Fatal(err3, "<<<<< Insert User Error")
 	// }
-	// fmt.Println("Inserted user with ID:", pk)
-	// fmt.Println("Inserted user with ID:", pk2)
-	// fmt.Println("Inserted user with ID:", pk3)
+	fmt.Println("Inserted user with ID:", pk, pk2, pk3)
 
 	//! Get User Route
 	http.HandleFunc("/user", routes.GetUser)
