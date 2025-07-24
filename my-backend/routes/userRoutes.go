@@ -20,7 +20,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 
 	//! Query into our users table
 	query := "SELECT username, email FROM users WHERE user_id = $1"
-	err := database.DB.QueryRow(query, 1).Scan(&user.Username, &user.Email)
+	err := database.DB.QueryRow(query, 1).Scan(&user.Username, &user.Email, &user.HashedPassword)
 
 	if err != nil {
 		log.Fatal(err)

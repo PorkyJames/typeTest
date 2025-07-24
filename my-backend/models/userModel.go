@@ -11,8 +11,12 @@ package models
 //     created_at datetime
 // }
 
+
+
 type User struct {
 	Username string
 	Email    string
-	Password string
+	HashedPassword string
 }
+
+
