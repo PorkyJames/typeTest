@@ -3,13 +3,12 @@ package main
 // //! Package for formatting text, including print to console
 import (
 	"fmt"
-	"my-backend/models"
 	"log"
+	data "my-backend/data"
 	"my-backend/database"
 	"my-backend/database/migrations"
 	"my-backend/routes"
 	"net/http"
-	"my-backend/lib/hashPass"
 )
 
 // func handler(w http.ResponseWriter, r *http.Request) {
@@ -32,13 +31,23 @@ func main() {
 	// fmt.Printf("database.DB: %#v\n", database.DB)
 	//! Create the table
 	migrations.UserMigrations(database.DB)
+
 	//! Insert Dummy Data
-	user := models.User{"Dummy1", "dummy1@gmail.com", GenerateFromPassword("dummy1pass")}
-	pk, _ := migrations.InsertUser(database.DB, user)
-	user2 := models.User{"Dummy2", "dummy2@gmail.com", GenerateFromPassword("dummy2pass")}
-	pk2, _ := migrations.InsertUser(database.DB, user2)
-	user3 := models.User{"Dummy3", "dummy3@gmail.com", GenerateFromPassword("dummy3pass")}
-	pk3, _ := migrations.InsertUser(database.DB, user3)
+	dummyUsers := data.CreateUserData()
+	for _, user := range dummyUsers {
+		_, err := migrations.InsertUser(database.DB, user)
+		if err != nil {
+			log.Fatal("Failed to insert dummy user:", err)
+		}
+	}
+	fmt.Println("Inserted Users")
+
+	// user := models.User{"Dummy1", "dummy1@gmail.com", auth.Hash("dummy1pass")}
+	// pk, _ := migrations.InsertUser(database.DB, user)
+	// user2 := models.User{"Dummy2", "dummy2@gmail.com", auth.Hash("dummy2pass")}
+	// pk2, _ := migrations.InsertUser(database.DB, user2)
+	// user3 := models.User{"Dummy3", "dummy3@gmail.com", auth.Hash("dummy3pass")}
+	// pk3, _ := migrations.InsertUser(database.DB, user3)
 	// if err != nil {
 	// 	log.Fatal(err, "<<<<< Insert User Error")
 	// }
@@ -48,7 +57,6 @@ func main() {
 	// if err3 != nil {
 	// 	log.Fatal(err3, "<<<<< Insert User Error")
 	// }
-	fmt.Println("Inserted user with ID:", pk, pk2, pk3)
 
 	//! Get User Route
 	http.HandleFunc("/user", routes.GetUser)
